@@ -1,4 +1,6 @@
-![GitHub Workflow Status (branch)](https://img.shields.io/github/actions/workflow/status/mtmjnb/sem/main.yml?branch=master)
+![GitHub Workflow Status (branch)](https://img.shields.io/github/actions/workflow/status/mtmjnb/sem/main.yml?branch=master)\
+[![LICENSE](https://img.shields.io/github/license/mtmjnb/sem.svg?style=flat-square)](https://github.com/mtmjnb/sem/blob/master/LICENSE)\
+[![Releases](https://img.shields.io/github/release/mtmjnb/sem/all.svg?style=flat-square)](https://github.com/mtmjnb/sem/releases)
 
 It's cold outside\
 There's no kind of atmosphere\
