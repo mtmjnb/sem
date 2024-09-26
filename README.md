@@ -1,3 +1,5 @@
+![GitHub Workflow Status (branch)](https://img.shields.io/github/actions/workflow/status/mtmjnb/sem/main.yml?branch=master)
+
 It's cold outside\
 There's no kind of atmosphere\
 I'm all alone\
