@@ -4,25 +4,15 @@
 - License [![LICENSE](https://img.shields.io/github/license/mtmjnb/sem.svg?style=flat-square)](https://github.com/mtmjnb/sem/blob/master/LICENSE)
 - Release [![Releases](https://img.shields.io/github/release/mtmjnb/sem/all.svg?style=flat-square)](https://github.com/mtmjnb/sem/releases)
 
-It's cold outside\
-There's no kind of atmosphere\
-I'm all alone\
-More or less\
-\
-Let me fly\
-Far away from here\
-Fun fun fun\
-In the sun sun sun\
-\
-I want to lie\
-Shipwrecked and comatose\
-Drinking fresh\
-Mango juice\
-\
-Goldfish shoals\
-Nibbling at my toes\
-Fun fun fun\
-In the sun sun sun\
-\
-Fun fun fun\
-In the sun sun sun
+## Our Current Process
+This is our current workflow.
+1. Pull the latest `develop` branch.
+2. Start a new feature branch.
+3. Once feature is finished, create JAR file.
+4. Update and test Docker configuration with GitHub Actions.
+5. Update feature branch with `develop` to ensure feature is up-to-date.
+6. Check feature branch still works.
+7. Merge feature branch into `develop`.
+8. Repeat 2-7 until release is ready.
+9. Merge `develop` branch into `release` and create release.
+10. Merge `release` into `master` and `develop`.
