@@ -73,10 +73,18 @@ public class App {
             // Create an SQL statement
             Statement statement = connection.createStatement();
             // Create string for SQL statement
-            String select =
-                    "SELECT emp_no, first_name, last_name "
-                            + "FROM employees "
-                            + "WHERE emp_no = " + ID;
+            String select = "SELECT employees.emp_no, employees.first_name, employees.last_name, titles.title, "
+                                + "salaries.salary, departments.dept_name, "
+                                + "manager_info.first_name AS manager_first_name, "
+                                + "manager_info.last_name AS manager_last_name "
+                             + "FROM employees "
+                                + "JOIN titles ON (employees.emp_no = titles.emp_no) "
+                                + "JOIN salaries ON (employees.emp_no = salaries.emp_no) "
+                                + "JOIN dept_emp ON (employees.emp_no = dept_emp.emp_no) "
+                                + "JOIN departments ON (departments.dept_no = dept_emp.dept_no) "
+                                + "JOIN dept_manager ON (departments.dept_no = dept_manager.dept_no) "
+                                + "JOIN employees AS manager_info ON (dept_manager.emp_no = manager_info.emp_no) "
+                             + "WHERE employees.emp_no = " + ID;
             // Execute SQL statement
             ResultSet resultSet = statement.executeQuery(select);
             // Return new employee if valid.
@@ -86,6 +94,11 @@ public class App {
                 employee.employee_no = resultSet.getInt("emp_no");
                 employee.first_name = resultSet.getString("first_name");
                 employee.last_name = resultSet.getString("last_name");
+                employee.title = resultSet.getString("title");
+                employee.salary = resultSet.getInt("salary");
+                employee.department_name = resultSet.getString("dept_name");
+                employee.manager = resultSet.getString("manager_first_name") + " "
+                        + resultSet.getString("manager_last_name");
                 return employee;
             } else {
                 return null;
