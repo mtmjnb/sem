@@ -14,6 +14,10 @@ public class App {
 
         // Connect to database
         app.connect();
+        // Get Employee
+        Employee employee = app.getEmployee(255530);
+        // Display results
+        app.displayEmployee(employee);
 
         // Disconnect from database
         app.disconnect();
@@ -90,6 +94,19 @@ public class App {
             System.out.println(e.getMessage());
             System.out.println("Failed to get employee details");
             return null;
+        }
+    }
+
+    public void displayEmployee(Employee employee) {
+        if (employee != null) {
+            System.out.println(
+                    employee.employee_no + " "
+                            + employee.first_name + " "
+                            + employee.last_name + "\n"
+                            + employee.title + "\n"
+                            + "Salary:" + employee.salary + "\n"
+                            + employee.department_name + "\n"
+                            + "Manager: " + employee.manager + "\n");
         }
     }
 }
