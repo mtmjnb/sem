@@ -63,4 +63,33 @@ public class App {
             }
         }
     }
+
+    public Employee getEmployee(int ID) {
+        try {
+            // Create an SQL statement
+            Statement statement = connection.createStatement();
+            // Create string for SQL statement
+            String select =
+                    "SELECT emp_no, first_name, last_name "
+                            + "FROM employees "
+                            + "WHERE emp_no = " + ID;
+            // Execute SQL statement
+            ResultSet resultSet = statement.executeQuery(select);
+            // Return new employee if valid.
+            // Check one is returned
+            if (resultSet.next()) {
+                Employee employee = new Employee();
+                employee.employee_no = resultSet.getInt("emp_no");
+                employee.first_name = resultSet.getString("first_name");
+                employee.last_name = resultSet.getString("last_name");
+                return employee;
+            } else {
+                return null;
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            System.out.println("Failed to get employee details");
+            return null;
+        }
+    }
 }
