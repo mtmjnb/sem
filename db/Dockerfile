@@ -1,5 +1,5 @@
-# Use the latest MySQL image
-FROM mysql
+# Use the MySQL image version 8.3 (allows native password plugin)
+FROM mysql:8.3
 # Set the working directory
 WORKDIR /tmp
 # Copy all the files to the working directory of the container
