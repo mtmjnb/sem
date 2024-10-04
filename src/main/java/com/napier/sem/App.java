@@ -1,28 +1,125 @@
 package com.napier.sem;
 
-import com.mongodb.MongoClient;
-import com.mongodb.client.MongoDatabase;
-import com.mongodb.client.MongoCollection;
-import org.bson.Document;
+import java.sql.*;
 
 public class App {
-    public static void main(String[] args) {
-        // Connect to MongoDB on local system - we're using port 27000
-        MongoClient mongo_client = new MongoClient("mongo-dbserver");
-        // Get a database - will create when we use it
-        MongoDatabase database = mongo_client.getDatabase("mydb");
-        // Get a collection from the database
-        MongoCollection<Document> collection = database.getCollection("test");
-        // Create a document to store
-        Document document = new Document("name", "Kevin Sim")
-                .append("class", "Software Engineering Methods")
-                .append("year", "2021")
-                .append("result", new Document("CW", 95).append("EX", 85));
-        // Add document to collection
-        collection.insertOne(document);
+    /**
+     * Connection to MySQL database.
+     */
+    private Connection connection = null;
 
-        // Check document in collection
-        Document my_document = collection.find().first();
-        System.out.println(my_document.toJson());
+    public static void main(String[] args) {
+        // Create new Application
+        App app = new App();
+
+        // Connect to database
+        app.connect();
+        // Get Employee
+        Employee employee = app.getEmployee(255530);
+        // Display results
+        app.displayEmployee(employee);
+
+        // Disconnect from database
+        app.disconnect();
+    }
+
+    /**
+     * Connect to the MySQL database.
+     */
+    public void connect() {
+        try {
+            // Load Database driver
+            Class.forName("com.mysql.cj.jdbc.Driver");
+        } catch (ClassNotFoundException e) {
+            System.out.println("Could not load SQL driver");
+            System.exit(-1);
+        }
+
+        int retries = 10;
+        for (int i = 0; i < retries; ++i) {
+            System.out.println("Connecting to database...");
+            try {
+                // Wait a bit for db to start
+                Thread.sleep(30000);
+                // Connect to database
+                connection = DriverManager.getConnection("jdbc:mysql://db:3306/employees?useSSL=false", "root", "example");
+                System.out.println("Successfully connected");
+                break;
+            } catch (SQLException sqle) {
+                System.out.println("Failed to connect to database attempt " + Integer.toString(i));
+                System.out.println(sqle.getMessage());
+            } catch (InterruptedException ie) {
+                System.out.println("Thread interrupted? Should not happen.");
+            }
+        }
+    }
+
+    /**
+     * Disconnect from the MySQL database.
+     */
+    public void disconnect() {
+        if (connection != null) {
+            try {
+                // Close connection
+                connection.close();
+            } catch (Exception e) {
+                System.out.println("Error closing connection to database");
+            }
+        }
+    }
+
+    public Employee getEmployee(int ID) {
+        try {
+            // Create an SQL statement
+            Statement statement = connection.createStatement();
+            // Create string for SQL statement
+            String select = "SELECT employees.emp_no, employees.first_name, employees.last_name, titles.title, "
+                                + "salaries.salary, departments.dept_name, "
+                                + "manager_info.first_name AS manager_first_name, "
+                                + "manager_info.last_name AS manager_last_name "
+                             + "FROM employees "
+                                + "JOIN titles ON (employees.emp_no = titles.emp_no) "
+                                + "JOIN salaries ON (employees.emp_no = salaries.emp_no) "
+                                + "JOIN dept_emp ON (employees.emp_no = dept_emp.emp_no) "
+                                + "JOIN departments ON (departments.dept_no = dept_emp.dept_no) "
+                                + "JOIN dept_manager ON (departments.dept_no = dept_manager.dept_no) "
+                                + "JOIN employees AS manager_info ON (dept_manager.emp_no = manager_info.emp_no) "
+                             + "WHERE employees.emp_no = " + ID;
+            // Execute SQL statement
+            ResultSet resultSet = statement.executeQuery(select);
+            // Return new employee if valid.
+            // Check one is returned
+            if (resultSet.next()) {
+                Employee employee = new Employee();
+                employee.employee_no = resultSet.getInt("emp_no");
+                employee.first_name = resultSet.getString("first_name");
+                employee.last_name = resultSet.getString("last_name");
+                employee.title = resultSet.getString("title");
+                employee.salary = resultSet.getInt("salary");
+                employee.department_name = resultSet.getString("dept_name");
+                employee.manager = resultSet.getString("manager_first_name") + " "
+                        + resultSet.getString("manager_last_name");
+                return employee;
+            } else {
+                return null;
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            System.out.println("Failed to get employee details");
+            return null;
+        }
+    }
+
+    public void displayEmployee(Employee employee) {
+        if (employee != null) {
+            System.out.println(
+                    employee.employee_no + " "
+                            + employee.first_name + " "
+                            + employee.last_name + "\n"
+                            + employee.title + "\n"
+                            + "Salary:" + employee.salary + "\n"
+                            + employee.department_name + "\n"
+                            + "Manager: " + employee.manager + "\n");
+        }
     }
 }
