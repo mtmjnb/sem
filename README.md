@@ -6,13 +6,18 @@
 
 ## Our Current Process
 This is our current workflow.
-1. Pull the latest `develop` branch.
-2. Start a new feature branch.
-3. Once feature is finished, create JAR file.
-4. Update and test Docker configuration with GitHub Actions.
-5. Update feature branch with `develop` to ensure feature is up-to-date.
-6. Check feature branch still works.
-7. Merge feature branch into `develop`.
-8. Repeat 2-7 until release is ready.
-9. Merge `develop` branch into `release` and create release.
-10. Merge `release` into `master` and `develop`.
+1. Select an issue to work on.
+2. Pull the latest `develop` branch.
+3. Start a new feature branch for the issue.
+4. Once feature is finished, create JAR file.
+5. Update and test Docker configuration with GitHub Actions.
+6. Update feature branch with `develop` to ensure feature is up-to-date.
+7. Check feature branch still works.
+8. Merge feature branch into `develop`.
+9. Repeat 1-7 until release is ready.
+10. Update the version number in Maven and the Dockerfile.
+11. Merge `develop` into `release`.
+12. Create a release - including version tag.
+13. Merge `release` into `master`.
+14. Merge `release` into `develop`.
+15. Close the issues.
