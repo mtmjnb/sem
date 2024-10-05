@@ -166,11 +166,11 @@ public class App {
     public void displaySalaries(ArrayList<Employee> salaries) {
         for (Employee employee : salaries) {
             if (employee != null) {
-                System.out.println(
-                        employee.employee_no + "\t"
-                                + employee.first_name + "\t"
-                                + employee.last_name + "\t"
-                                + employee.salary);
+                System.out.printf("%-10d %-15s %-15s %10d\n",
+                        employee.employee_no,
+                        employee.first_name,
+                        employee.last_name,
+                        employee.salary);
             }
         }
     }
