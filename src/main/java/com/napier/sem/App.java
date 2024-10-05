@@ -19,6 +19,11 @@ public class App {
         // Display results
         app.displayEmployee(employee);
 
+        // Get Salary by Role
+        Employee employee2 = app.getSalary("Engineer");
+        // Display results
+        app.displaySalary(employee2);
+
         // Disconnect from database
         app.disconnect();
     }
@@ -154,6 +159,16 @@ public class App {
                             + "Salary:" + employee.salary + "\n"
                             + employee.department_name + "\n"
                             + "Manager: " + employee.manager + "\n");
+        }
+    }
+
+    public void displaySalary(Employee employee) {
+        if (employee != null) {
+            System.out.println(
+                    employee.employee_no + "\t"
+                            + employee.first_name + "\t"
+                            + employee.last_name + "\t"
+                            + employee.salary);
         }
     }
 }
