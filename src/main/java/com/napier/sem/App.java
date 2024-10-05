@@ -126,7 +126,7 @@ public class App {
                                 + "AND employees.emp_no = titles.emp_no "
                                 + "AND salaries.to_date = '9999-01-01' "
                                 + "AND titles.to_date = '9999-01-01' "
-                                + "AND titles.title = " + title + " "
+                                + "AND titles.title = " + title + "' "
                              + "ORDER BY employees.emp_no ASC";
             // Execute SQL statement
             ResultSet resultSet = statement.executeQuery(select);
