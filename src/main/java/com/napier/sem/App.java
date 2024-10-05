@@ -1,6 +1,7 @@
 package com.napier.sem;
 
 import java.sql.*;
+import java.util.ArrayList;
 
 public class App {
     /**
@@ -18,6 +19,11 @@ public class App {
         Employee employee = app.getEmployee(255530);
         // Display results
         app.displayEmployee(employee);
+
+        // Get Salary by Role
+        ArrayList<Employee> salaries = app.getSalaries("Engineer");
+        // Display results
+        app.displaySalaries(salaries);
 
         // Disconnect from database
         app.disconnect();
@@ -110,6 +116,40 @@ public class App {
         }
     }
 
+    public ArrayList<Employee> getSalaries(String title) {
+        try {
+            ArrayList<Employee> salaries = new ArrayList<>();
+            // Create an SQL statement
+            Statement statement = connection.createStatement();
+            // Create string for SQL statement
+            String select = "SELECT employees.emp_no, employees.first_name, employees.last_name, salaries.salary "
+                             + "FROM employees, salaries, titles "
+                             + "WHERE employees.emp_no = salaries.emp_no "
+                                + "AND employees.emp_no = titles.emp_no "
+                                + "AND salaries.to_date = '9999-01-01' "
+                                + "AND titles.to_date = '9999-01-01' "
+                                + "AND titles.title = '" + title + "' "
+                             + "ORDER BY employees.emp_no ASC";
+            // Execute SQL statement
+            ResultSet resultSet = statement.executeQuery(select);
+            // Return new employee if valid.
+            // Check one is returned
+            while (resultSet.next()) {
+                Employee employee = new Employee();
+                employee.employee_no = resultSet.getInt("emp_no");
+                employee.first_name = resultSet.getString("first_name");
+                employee.last_name = resultSet.getString("last_name");
+                employee.salary = resultSet.getInt("salary");
+                salaries.add(employee);
+            }
+            return salaries;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            System.out.println("Failed to get employee details");
+            return null;
+        }
+    }
+
     public void displayEmployee(Employee employee) {
         if (employee != null) {
             System.out.println(
@@ -120,6 +160,18 @@ public class App {
                             + "Salary:" + employee.salary + "\n"
                             + employee.department_name + "\n"
                             + "Manager: " + employee.manager + "\n");
+        }
+    }
+
+    public void displaySalaries(ArrayList<Employee> salaries) {
+        for (Employee employee : salaries) {
+            if (employee != null) {
+                System.out.printf("%-10d %-15s %-15s %10d\n",
+                        employee.employee_no,
+                        employee.first_name,
+                        employee.last_name,
+                        employee.salary);
+            }
         }
     }
 }
