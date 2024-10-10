@@ -25,6 +25,11 @@ public class App {
         // Display results
         app.displaySalaries(salaries);
 
+        // Extract employee salary information
+        ArrayList<Employee> employees = app.getAllSalaries();
+        // Test the size of the returned data - should be 240124
+        System.out.println(employees.size());
+
         // Disconnect from database
         app.disconnect();
     }
@@ -146,6 +151,40 @@ public class App {
         } catch (Exception e) {
             System.out.println(e.getMessage());
             System.out.println("Failed to get employee details");
+            return null;
+        }
+    }
+
+    /**
+     * Gets all the current employees and salaries.
+     * @return A list of all employees and salaries, or null if there is an error.
+     */
+    public ArrayList<Employee> getAllSalaries() {
+        try {
+            // Create an SQL statement
+            Statement statement = connection.createStatement();
+            // Create string for SQL statement
+            String select =
+                    "SELECT employees.emp_no, employees.first_name, employees.last_name, salaries.salary "
+                            + "FROM employees, salaries "
+                            + "WHERE employees.emp_no = salaries.emp_no AND salaries.to_date = '9999-01-01' "
+                            + "ORDER BY employees.emp_no ASC";
+            // Execute SQL statement
+            ResultSet resultSet = statement.executeQuery(select);
+            // Extract employee information
+            ArrayList<Employee> employees = new ArrayList<Employee>();
+            while (resultSet.next()) {
+                Employee employee = new Employee();
+                employee.employee_no = resultSet.getInt("employees.emp_no");
+                employee.first_name = resultSet.getString("employees.first_name");
+                employee.last_name = resultSet.getString("employees.last_name");
+                employee.salary = resultSet.getInt("salaries.salary");
+                employees.add(employee);
+            }
+            return employees;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            System.out.println("Failed to get salary details");
             return null;
         }
     }
