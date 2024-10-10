@@ -15,18 +15,10 @@ public class App {
 
         // Connect to database
         app.connect();
-        // Get Employee
-        Employee employee = app.getEmployee(255530);
-        // Display results
-        app.displayEmployee(employee);
-
-        // Get Salary by Role
-        ArrayList<Employee> employees = app.getSalaries("Engineer");
-        // Display results
-        app.printSalaries(employees);
 
         // Extract employee salary information
-        employees = app.getAllSalaries();
+        ArrayList<Employee> employees = app.getAllSalaries();
+
         // Display results
         app.printSalaries(employees);
 
