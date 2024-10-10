@@ -113,9 +113,12 @@ public class App {
         }
     }
 
-    public ArrayList<Employee> getSalaries(String title) {
+    /**
+     * Gets the current employees and salaries with a given role.
+     * @return A list of employees and salaries, or null if there is an error.
+     */
+    public ArrayList<Employee> getSalariesByRole(String title) {
         try {
-            ArrayList<Employee> salaries = new ArrayList<>();
             // Create an SQL statement
             Statement statement = connection.createStatement();
             // Create string for SQL statement
@@ -129,20 +132,20 @@ public class App {
                              + "ORDER BY employees.emp_no ASC";
             // Execute SQL statement
             ResultSet resultSet = statement.executeQuery(select);
-            // Return new employee if valid.
-            // Check one is returned
+            // Extract employee information
+            ArrayList<Employee> employees = new ArrayList<Employee>();
             while (resultSet.next()) {
                 Employee employee = new Employee();
-                employee.employee_no = resultSet.getInt("emp_no");
-                employee.first_name = resultSet.getString("first_name");
-                employee.last_name = resultSet.getString("last_name");
-                employee.salary = resultSet.getInt("salary");
-                salaries.add(employee);
+                employee.employee_no = resultSet.getInt("employees.emp_no");
+                employee.first_name = resultSet.getString("employees.first_name");
+                employee.last_name = resultSet.getString("employees.last_name");
+                employee.salary = resultSet.getInt("salaries.salary");
+                employees.add(employee);
             }
-            return salaries;
+            return employees;
         } catch (Exception e) {
             System.out.println(e.getMessage());
-            System.out.println("Failed to get employee details");
+            System.out.println("Failed to get salary details");
             return null;
         }
     }
