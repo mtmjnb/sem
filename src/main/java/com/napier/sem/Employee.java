@@ -32,10 +32,10 @@ public class Employee {
     /**
      * Employee's current department
      */
-    public String department_name;
+    public Department department_name;
 
     /**
      * Employee's manager
      */
-    public String manager;
+    public Employee manager;
 }
