@@ -258,10 +258,18 @@ public class App {
      * @param employees The list of employees to print.
      */
     public void printSalaries(ArrayList<Employee> employees) {
+        // Check employees is not null
+        if (employees == null) {
+            System.out.println("No employees");
+            return;
+        }
         // Print header
         System.out.printf("%-10s %-15s %-20s %-8s%n", "Employee No", "First Name", "Last Name", "Salary");
         // Loop over all employees in the list
         for (Employee employee : employees) {
+            if (employee == null) {
+                continue;
+            }
             String employee_data =
                     String.format("%-10s %-15s %-20s %-8s",
                             employee.employee_no, employee.first_name, employee.last_name, employee.salary);
