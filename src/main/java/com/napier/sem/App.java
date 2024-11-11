@@ -19,8 +19,10 @@ public class App {
             app.connect(args[0], Integer.parseInt(args[1]));
         }
 
-        ArrayList<Employee> employees = app.getSalariesByDepartment(app.getDepartment("Sales"));
-        app.printSalaries(employees);
+        /*ArrayList<Employee> employees = app.getSalariesByDepartment(app.getDepartment("Sales"));
+        app.printSalaries(employees);*/
+        Employee employee = app.getBasicEmployee(500000);
+        app.displayEmployee(employee);
 
         // Disconnect from database
         app.disconnect();
@@ -285,6 +287,48 @@ public class App {
                     String.format("%-10s %-15s %-20s %-8s",
                             employee.employee_no, employee.first_name, employee.last_name, employee.salary);
             System.out.println(employee_data);
+        }
+    }
+
+    public void addEmployee(Employee employee) {
+        try {
+            Statement statement = connection.createStatement();
+            String update =
+                              "INSERT INTO employees (emp_no, first_name, last_name, birth_date, gender, hire_date) "
+                            + "VALUES (" + employee.employee_no + ", '" + employee.first_name + "', '"
+                            + employee.last_name + "', '9999-01-01', 'M', '9999-01-01')";
+            statement.execute(update);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            System.out.println("Failed to add employee");
+        }
+    }
+
+    public Employee getBasicEmployee(int ID) {
+        try {
+            // Create an SQL statement
+            Statement statement = connection.createStatement();
+            // Create string for SQL statement
+            String select = "SELECT emp_no, first_name, last_name "
+                    + "FROM employees "
+                    + "WHERE employees.emp_no = " + ID;
+            // Execute SQL statement
+            ResultSet resultSet = statement.executeQuery(select);
+            // Return new employee if valid.
+            // Check one is returned
+            if (resultSet.next()) {
+                Employee employee = new Employee();
+                employee.employee_no = resultSet.getInt("emp_no");
+                employee.first_name = resultSet.getString("first_name");
+                employee.last_name = resultSet.getString("last_name");
+                return employee;
+            } else {
+                return null;
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            System.out.println("Failed to get employee details");
+            return null;
         }
     }
 }
