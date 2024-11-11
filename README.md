@@ -3,6 +3,8 @@
 - Develop Branch Status ![GitHub Workflow Status (branch)](https://img.shields.io/github/actions/workflow/status/mtmjnb/sem/main.yml?branch=develop)
 - License [![LICENSE](https://img.shields.io/github/license/mtmjnb/sem.svg?style=flat-square)](https://github.com/mtmjnb/sem/blob/master/LICENSE)
 - Release [![Releases](https://img.shields.io/github/release/mtmjnb/sem/all.svg?style=flat-square)](https://github.com/mtmjnb/sem/releases)
+- Master Code Coverage [![codecov](https://codecov.io/gh/mtmjnb/sem/branch/master/graph/badge.svg?token=NZKYFJZ7N6)](https://codecov.io/gh/mtmjnb/sem)
+- Develop Code Coverage [![codecov](https://codecov.io/gh/mtmjnb/sem/branch/develop/graph/badge.svg?token=NZKYFJZ7N6)](https://codecov.io/gh/mtmjnb/sem)
 
 ## Our Current Process
 This is our current workflow.
