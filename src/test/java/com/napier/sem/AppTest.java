@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 
-public class AppTest {
+class AppTest {
     static App app;
 
     @BeforeAll
